@@ -27,6 +27,7 @@ public class PlayerController : MonoBehaviour
             isHasBallToChase = true;
             ballPosition = ball.transform.position;
         }
+        
         if (isActivated)
         {
             if (isHasBallToChase)
