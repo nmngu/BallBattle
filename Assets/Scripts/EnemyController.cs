@@ -8,6 +8,7 @@ public class EnemyController : MonoBehaviour
     public float detective_rang;
     private bool isActivated = true;
     Animator anim;
+    public bool isDetectBall = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -15,13 +16,12 @@ public class EnemyController : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        if (isActivated)
+        if (isActivated && isDetectBall)
         {
             GameObject[] list_players = GameObject.FindGameObjectsWithTag("Player");
             foreach (var player in list_players)
             {
-                if (Vector3.Distance(transform.position, player.transform.position) <= detective_rang
-                && player.GetComponent<PlayerController>().isGetBall)
+                if (player.GetComponent<PlayerController>().isGetBall)
                 {
                     transform.position = Vector3.MoveTowards(transform.position, player.transform.position, normal_speed * Time.deltaTime);
                     break;
