@@ -27,7 +27,7 @@ public class PlayerController : MonoBehaviour
             isHasBallToChase = true;
             ballPosition = ball.transform.position;
         }
-        
+
         if (isActivated)
         {
             if (isHasBallToChase)
@@ -48,7 +48,10 @@ public class PlayerController : MonoBehaviour
     }
     void MoveForward()
     {
-        transform.position += new Vector3(1.0f, 0, 0) * (isGetBall ? carry_speed : normal_speed) * Time.deltaTime;
+        if (isGetBall)
+            transform.position = Vector3.MoveTowards(transform.position, new Vector3(7f, 0, 0), carry_speed * Time.deltaTime);
+        else
+            transform.position += new Vector3(1.0f, 0, 0) * normal_speed * Time.deltaTime;
     }
 
     private void OnCollisionEnter(Collision other)
