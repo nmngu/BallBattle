@@ -13,9 +13,10 @@ public class GameController : MonoBehaviour
     private Vector3 ballPosition;
     private float match_time = 140;
     float m_time = 0;
+    public EnergyFiller energy_filter;
     void Start()
     {
-        ballPosition = new Vector3(Random.Range(0.0f, -6.0f), 0.3f, Random.Range(-4.0f, 4.0f));// y = 0.3 to place ball on plane
+        ballPosition = new Vector3(Random.Range(-4.0f, 4.0f), 0.3f, Random.Range(0.0f, -6.0f));// y = 0.3 to place ball on plane
         Instantiate(ball, ballPosition, Quaternion.identity);
     }
 
@@ -23,10 +24,11 @@ public class GameController : MonoBehaviour
     void Update()
     {
         m_time += Time.deltaTime;
-        // Debug.Log("tIME " + m_time);
         GameObject remain_time = GameObject.FindGameObjectWithTag("RemainTime");
         int i_remainTime = (int)(match_time - m_time);
         remain_time.GetComponent<UnityEngine.UI.Text>().text = i_remainTime.ToString() + "s";
+
+        //Process click event
         if (Input.GetMouseButtonDown(0))
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -34,20 +36,24 @@ public class GameController : MonoBehaviour
             if (Physics.Raycast(ray, out rayhit) && rayhit.collider.tag == "Ground")
             {
                 var position = rayhit.point;
-                GameObject player;
                 position.y = 0.5f;
-                if (position.x <= 0)
+                if (position.z <= 0)
                 {
-                    player = Instantiate(prefab_player, position, Quaternion.identity);
-
+                    if (energy_filter.playper_energy >= 2)
+                    {
+                        Instantiate(prefab_player, position, Quaternion.identity);
+                        energy_filter.playper_energy -= 2;
+                    }
                 }
                 else
-                    Instantiate(prefab_enemy, position, Quaternion.identity);
-
+                {
+                    if (energy_filter.enemy_energy >= 3)
+                    {
+                        Instantiate(prefab_enemy, position, Quaternion.identity);
+                        energy_filter.enemy_energy -= 3;
+                    }
+                }
             }
         }
-
     }
-
-
 }

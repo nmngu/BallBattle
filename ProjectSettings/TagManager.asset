@@ -8,6 +8,8 @@ TagManager:
   - Ball
   - Enemy
   - RemainTime
+  - DeadField
+  - Indicator_Direction
   layers:
   - Default
   - TransparentFX

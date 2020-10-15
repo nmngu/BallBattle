@@ -12,7 +12,9 @@ public class EnemyController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //anim = GetComponent<Animator>();
+        GameObject direct_arrow = GameObject.Find("Indicator_Direction");
+        if (direct_arrow != null)
+            direct_arrow.SetActive(false);
     }
     private void FixedUpdate()
     {
@@ -23,7 +25,14 @@ public class EnemyController : MonoBehaviour
             {
                 if (player.GetComponent<PlayerController>().isGetBall)
                 {
+                    GameObject direct_arrow = GameObject.Find("Indicator_Direction");
+                    if (direct_arrow != null)
+                        direct_arrow.SetActive(true);
+                    // transform.Find("Indicator_Direction").gameObject.SetActive(true);
                     transform.position = Vector3.MoveTowards(transform.position, player.transform.position, normal_speed * Time.deltaTime);
+                    Vector3 targetDir = player.transform.position - transform.position;
+                    targetDir.y = 0;
+                    transform.rotation = Quaternion.LookRotation(targetDir);
                     break;
                 }
             }
