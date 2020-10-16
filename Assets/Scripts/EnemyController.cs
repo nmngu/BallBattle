@@ -9,12 +9,11 @@ public class EnemyController : MonoBehaviour
     private bool isActivated = true;
     Animator anim;
     public bool isDetectBall = false;
+    public GameObject direct_arrow;
     // Start is called before the first frame update
     void Start()
     {
-        GameObject direct_arrow = GameObject.Find("Indicator_Direction");
-        if (direct_arrow != null)
-            direct_arrow.SetActive(false);
+        direct_arrow.SetActive(false);
     }
     private void FixedUpdate()
     {
@@ -25,10 +24,8 @@ public class EnemyController : MonoBehaviour
             {
                 if (player.GetComponent<PlayerController>().isGetBall)
                 {
-                    GameObject direct_arrow = GameObject.Find("Indicator_Direction");
                     if (direct_arrow != null)
                         direct_arrow.SetActive(true);
-                    // transform.Find("Indicator_Direction").gameObject.SetActive(true);
                     transform.position = Vector3.MoveTowards(transform.position, player.transform.position, normal_speed * Time.deltaTime);
                     Vector3 targetDir = player.transform.position - transform.position;
                     targetDir.y = 0;
@@ -51,6 +48,8 @@ public class EnemyController : MonoBehaviour
         {
             other.gameObject.GetComponent<PlayerController>().isActivated = false;
             this.isActivated = false;
+            if (direct_arrow != null)
+                direct_arrow.gameObject.SetActive(false);
             //anim.SetTrigger("makered");
         }
     }

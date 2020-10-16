@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class EnemyRangeController : MonoBehaviour
 {
-    private float normal_speed = 1f;
-
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))

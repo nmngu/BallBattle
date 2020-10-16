@@ -11,10 +11,11 @@ public class PlayerController : MonoBehaviour
     private bool isHasBallToChase = true;
     public bool isActivated = true;
     GameObject ball;
+    Animator animator;
     // Start is called before the first frame update
     void Start()
     {
-
+        animator = GetComponent<Animator>();
     }
     private void FixedUpdate()
     {
@@ -69,7 +70,10 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionEnter(Collision other)
     {
-
+        if (other.collider.tag == "Enemy")
+        {
+            animator.SetBool("isActive", false);
+        }
     }
     private void OnTriggerEnter(Collider other)
     {
