@@ -10,6 +10,9 @@ TagManager:
   - RemainTime
   - DeadField
   - Indicator_Direction
+  - BallContainer
+  - Detective_range
+  - Endgame
   layers:
   - Default
   - TransparentFX

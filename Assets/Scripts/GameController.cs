@@ -10,14 +10,18 @@ public class GameController : MonoBehaviour
     public GameObject prefab_enemy;
     private List<GameObject> list_players;
     private List<GameObject> list_enemies;
-    private Vector3 ballPosition;
     private float match_time = 140;
     float m_time = 0;
     public EnergyFiller energy_filter;
     void Start()
     {
-        ballPosition = new Vector3(Random.Range(-4.0f, 4.0f), 0.3f, Random.Range(0.0f, -6.0f));// y = 0.3 to place ball on plane
-        Instantiate(ball, ballPosition, Quaternion.identity);
+        GameObject end = GameObject.Find("Endgame");
+        if (end != null)
+            end.SetActive(false);
+        Vector3 ballPosition = new Vector3(Random.Range(-4.0f, 4.0f), 0.3f, Random.Range(0.0f, -6.0f));// y = 0.3 to place ball on plane
+        //Instantiate(ball, ballPosition, Quaternion.identity);
+        ball.transform.position = ballPosition;
+        ball.SetActive(true);
     }
 
     // Update is called once per frame
@@ -33,7 +37,8 @@ public class GameController : MonoBehaviour
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit rayhit;
-            if (Physics.Raycast(ray, out rayhit) && rayhit.collider.tag == "Ground")
+            if (Physics.Raycast(ray, out rayhit)
+            && (rayhit.collider.tag == "Ground" || rayhit.collider.tag == "Detective_range"))
             {
                 var position = rayhit.point;
                 position.y = 0.5f;

@@ -4,35 +4,39 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
+    private Vector3 initPosition;
     public float normal_speed;
     public float detective_rang;
-    private bool isActivated = true;
+    public bool isActivated = true;
     Animator anim;
-    public bool isDetectBall = false;
+    public Transform isDetectBall;
     public GameObject direct_arrow;
+    private float time_deactive;
+    public float reactive_time = 4.0f;
     // Start is called before the first frame update
     void Start()
     {
+        isDetectBall = null;
         direct_arrow.SetActive(false);
+        initPosition = transform.position;
+        time_deactive = 0;
     }
     private void FixedUpdate()
     {
-        if (isActivated && isDetectBall)
+        if (isActivated)
         {
-            GameObject[] list_players = GameObject.FindGameObjectsWithTag("Player");
-            foreach (var player in list_players)
+            if (isDetectBall != null)
             {
-                if (player.GetComponent<PlayerController>().isGetBall)
-                {
-                    if (direct_arrow != null)
-                        direct_arrow.SetActive(true);
-                    transform.position = Vector3.MoveTowards(transform.position, player.transform.position, normal_speed * Time.deltaTime);
-                    Vector3 targetDir = player.transform.position - transform.position;
-                    targetDir.y = 0;
-                    transform.rotation = Quaternion.LookRotation(targetDir);
-                    break;
-                }
+                Move2Position(isDetectBall.transform.position);
             }
+        }
+        else
+        {
+            isDetectBall = null;
+            Move2Position(initPosition);
+            time_deactive += Time.deltaTime;
+            if (time_deactive > reactive_time)
+                isActivated = true;
         }
     }
 
@@ -41,16 +45,13 @@ public class EnemyController : MonoBehaviour
     {
 
     }
-    private void OnCollisionEnter(Collision other)
+
+    private void Move2Position(Vector3 position)
     {
-        if (other.collider.tag == "Player"
-        && other.gameObject.GetComponent<PlayerController>().isGetBall)
-        {
-            other.gameObject.GetComponent<PlayerController>().isActivated = false;
-            this.isActivated = false;
-            if (direct_arrow != null)
-                direct_arrow.gameObject.SetActive(false);
-            //anim.SetTrigger("makered");
-        }
+        transform.position = Vector3.MoveTowards(transform.position, position, normal_speed * Time.deltaTime);
+        Vector3 targetDir = position - transform.position;
+        targetDir.y = 0;
+        if (transform.position != initPosition)
+            transform.rotation = Quaternion.LookRotation(targetDir);
     }
 }

@@ -195,6 +195,7 @@ MonoBehaviour:
   carry_speed: 0.75
   isGetBall: 0
   isActivated: 1
+  reactive_time: 2.5
 --- !u!54 &6228562755338899871
 Rigidbody:
   m_ObjectHideFlags: 0

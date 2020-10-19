@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 716775598205216467}
   m_Layer: 0
   m_Name: DetectiveRange
-  m_TagString: Untagged
+  m_TagString: Detective_range
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -218,8 +218,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   normal_speed: 1
   detective_rang: 0
-  isDetectBall: 0
+  isActivated: 1
+  isDetectBall: {fileID: 0}
   direct_arrow: {fileID: 6368265895162194061}
+  reactive_time: 4
 --- !u!54 &3554721475549546909
 Rigidbody:
   m_ObjectHideFlags: 0

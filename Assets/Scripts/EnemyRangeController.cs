@@ -10,7 +10,7 @@ public class EnemyRangeController : MonoBehaviour
         {
             if (other.gameObject.GetComponent<PlayerController>().isGetBall)
             {
-                this.GetComponentInParent<EnemyController>().isDetectBall = true;
+                this.GetComponentInParent<EnemyController>().isDetectBall = other.transform;
             }
         }
     }
